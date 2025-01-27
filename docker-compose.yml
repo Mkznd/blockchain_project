@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  blockchain-core:
+    build:
+      context: ./blockchain-core
+      dockerfile: Dockerfile
+    ports:
+      - "8545:8545"
+      - "3001:3001"
+    volumes:
+      - ./blockchain-core:/app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8545"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    stdin_open: true
+    tty: true
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      blockchain-core:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      blockchain-core:
+        condition: service_healthy
+    volumes:
+      - ./frontend:/app
+    stdin_open: true
+    tty: true

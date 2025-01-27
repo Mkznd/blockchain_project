@@ -1,0 +1,9 @@
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/Mkznd/blockchain_frontend
+[submodule "blockchain-core"]
+	path = blockchain-core
+	url = https://gitlab.com/Mkznd/blockchain_core
+[submodule "backend"]
+	path = backend
+	url = https://github.com/Mkznd/blockchain_backend
